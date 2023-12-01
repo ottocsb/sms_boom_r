@@ -1,0 +1,63 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions: write-all
+    
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: cargo build --verbose
+    - name: Run tests
+      run: cargo test --verbose
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+    
+    - name: Build release
+      run: |
+            rustup target add x86_64-unknown-linux-musl
+            cargo build -r --target x86_64-unknown-linux-musl
+      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+
+      
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      with:
+        tag_name: v${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+        asset_path: ./target/x86_64-unknown-linux-musl/release/hello_action
+        asset_name: hello_action
+        asset_content_type: application/octet-stream
