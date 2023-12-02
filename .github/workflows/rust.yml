@@ -34,6 +34,7 @@ jobs:
     - name: install ssl
       run: |
            sudo apt install libssl-dev
+           sudo apt install pkg-config
            
     - name: Build release
       run: |
