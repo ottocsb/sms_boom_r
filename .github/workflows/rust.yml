@@ -30,7 +30,11 @@ jobs:
       with:
         profile: minimal
         toolchain: stable
-    
+        
+    - name: install ssl
+      run: |
+           sudo apt install libssl-dev
+           
     - name: Build release
       run: |
             rustup target add x86_64-unknown-linux-musl
