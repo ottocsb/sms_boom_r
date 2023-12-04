@@ -16,5 +16,3 @@ time = "0.3.30"
 num = "0.4.1"
 indicatif = "0.17.7"
 regex = { version = "1.10.2", features = [] }
-openssl = { version = "0.10", features = ["vendored"] }
-
