@@ -27,12 +27,13 @@ jobs:
     - name: Install dependencies
       run: |
             sudo apt-get update
-            sudo apt-get install -y libssl-dev pkg-config
+            sudo apt-get install libssl-dev pkg-config
 
     - name: Build release
       run: |
-           rustup target add x86_64-unknown-linux-musl
-           PKG_CONFIG_ALLOW_CROSS=1 cargo build --release --target x86_64-unknown-linux-musl
+            export OPENSSL_DIR=/path/to/openssl
+            rustup target add x86_64-unknown-linux-musl
+            PKG_CONFIG_ALLOW_CROSS=1 cargo build --release --target x86_64-unknown-linux-musl
 
     - name: Create Release
       id: create_release
