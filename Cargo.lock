@@ -931,7 +931,6 @@ version = "0.1.0"
 dependencies = [
  "indicatif",
  "num",
- "openssl-sys",
  "regex",
  "reqwest",
  "serde",

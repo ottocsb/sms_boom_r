@@ -31,6 +31,7 @@ jobs:
 
     - name: Build release
       run: |
+           export OPENSSL_DIR=/path/to/openssl
            rustup target add x86_64-unknown-linux-musl
            cargo build --release --target x86_64-unknown-linux-musl
 
