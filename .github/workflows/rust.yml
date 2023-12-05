@@ -2,8 +2,9 @@ name: build Release
 
 on:
   push:
-    tags:
-      - v[0-9]+.*
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   create-release:
