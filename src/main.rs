@@ -123,7 +123,7 @@ fn get_env() -> Result<(String, u64, u64, u64), Box<dyn Error>> {
 
     // 检查是否提供了手机号
     if args.len() < 2 {
-        return Err("请提供手机号！！！".into());
+        return Err("至少提供手机号！".into());
     }
 
     let phone = &args[1];
@@ -132,7 +132,7 @@ fn get_env() -> Result<(String, u64, u64, u64), Box<dyn Error>> {
 
     // 检查手机号是否匹配正则表达式
     if !re.is_match(phone) {
-        return Err("手机号格式不正确".into());
+        return Err("手机号格式不正确！".into());
     }
 
     // 获取循环次数，如果用户没有提供，则默认为1
