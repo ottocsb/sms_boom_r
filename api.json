@@ -1,20 +1,17 @@
 [
     {
-        "desc": "用户到家",
-        "url": "https://user.daojia.com/mobile/getcode?mobile=[phone]&newVersion=1&bu=112",
-        "method": "GET"
-        
-    },
-    {
         "desc": "小叶子app",
         "url": "https://dss.xiaoyezi.com/student_app/auth/validate_code?mobile=[phone]&country_code=86",
-        "method": "GET"
-        
+        "method": "GET",
+        "obsolete": false,
+        "header": {},
+        "data": {}
     },
     {
         "desc": "人人文库",
         "url": "https://www.renrendoc.com/Reg.aspx/GetUserSMSCode",
         "method": "POST",
+        "obsolete": true,
         "header": {
             "Content-Type": "application/json; charset=UTF-8",
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
@@ -27,29 +24,29 @@
     {
         "desc": "乐教乐学",
         "url": "http://id.lejiaolexue.com/api/sendvericode.ashx?phone=[phone]",
-        "method": "GET"
-        
-    },
-    {
-        "desc": "费耘网",
-        "url": "https://www.feeclouds.com/homepage/register/send",
-        "method": "POST",
-        "data": {
-            "mobile": "[phone]"
-        }
+        "method": "GET",
+        "obsolete": true,
+        "header": {},
+        "data": {}
     },
     {
         "desc": "广东省心理学会",
         "url": "http://gpa-gd.scnu.edu.cn/member/index/public_send_code.html",
         "method": "POST",
+        "obsolete": false,
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data": {
-            "phone": "[phone]"
+            "phone": "[phone]",
+            "code": "4344"
         }
     },
     {
         "desc": "麦克赛尔数字映像",
         "url": "https://www.maxell-dm.cn/Code/CheckImage.aspx",
         "method": "POST",
+        "header": {},
         "data": {
             "action": "send",
             "txtMember_Name": "[phone]"
@@ -59,6 +56,7 @@
         "desc": "企米子",
         "url": "https://www.xcxui.com/index/register/getcode.html",
         "method": "POST",
+        "header": {},
         "data": {
             "tel": "[phone]"
         }
@@ -66,8 +64,9 @@
     {
         "desc": "能链开放平台",
         "url": "https://openplatformwsgateway.czb365.com/openplatformws/user/send/sendCheckMsgV7/[phone]",
-        "method": "GET"
-        
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "泛付 PanPay",
@@ -81,8 +80,8 @@
             "tplType": "01",
             "type": "BIND_PHONE",
             "phoneCountry": "86"
-        }
-        
+        },
+        "form": ""
     },
     {
         "desc": "鳳凰金融",
@@ -96,7 +95,8 @@
             "Referer": "https://www.fengwd.com/",
             "Content-Type": "application/x-www-form-urlencoded",
             "Cookie": "fjr_properties=%7B%22abtest%22%3A%22c%22%7D; _ga=GA1.2.1239566769.1689827740; _gid=GA1.2.1620323177.1689827740; _gat=1; Hm_lvt_cca0837a014621d8d933a0b1b2cb0be5=1689827740; Hm_lpvt_cca0837a014621d8d933a0b1b2cb0be5=1689827740; _ga_RQJV198NYX=GS1.2.1689827743.1.0.1689827743.0.0.0"
-        }
+        },
+        "form": ""
     },
     {
         "desc": "安徽相亲网",
@@ -113,8 +113,8 @@
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
             "Referer": "https://www.ahxiangqin.cn/index.php?c=passport&a=reg",
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-        }
-        
+        },
+        "form": ""
     },
     {
         "desc": "itv.morequick",
@@ -129,7 +129,8 @@
             "tel": "[phone]",
             "item": "get",
             "type": "3"
-        }
+        },
+        "form": ""
     },
     {
         "desc": "快乐购",
@@ -144,12 +145,15 @@
         "data": {
             "mobile": "[phone]",
             "fromsms": "reg"
-        }
+        },
+        "form": ""
     },
     {
         "desc": "华测云",
         "url": "https://cloud.huace.cn/ChcnavCloudAuth/code/sms?mobile=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "有奖课堂",
@@ -159,7 +163,8 @@
             "Referer": "https://www.yojiang.cn/",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
             "Cookie": "Hm_lvt_b8feb3bac8c21f12c39b6af852dd50f4=1689859861; Hm_lpvt_b8feb3bac8c21f12c39b6af852dd50f4=1689859861; guest_uuid=64b937141b91622e7f8b217d"
-        }
+        },
+        "data": {}
     },
     {
         "desc": "万维易源",
@@ -173,7 +178,8 @@
         },
         "data": {
             "phone": "[phone]"
-        }
+        },
+        "form": ""
     },
     {
         "desc": "GAuth 权限认证",
@@ -217,85 +223,114 @@
     {
         "desc": "https://m.yiwise.com",
         "url": "https://m.yiwise.com/apiPlatform/verificationCode/send?phoneNumber=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://m.95303.com",
         "url": "https://m.95303.com/api/OrderYx/GetCodeBySMS?mobile=[phone]&_=1626625066773",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://www.51hawo.com",
         "url": "https://www.51hawo.com/apollo/MobileCode/sendMobileCode?mobile=[phone]&sms_type=101&register_from=20000091",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://igetcool-share.igetcool.com",
         "url": "https://igetcool-share.igetcool.com/mall-server/api/smscode/sendSmscode?phone=[phone]&countrycode=86&smstype=0&type=0",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://www.sensorsdata.cn",
         "url": "https://www.sensorsdata.cn/api/passport/sms/quest_new/[phone]?_t=qajgslud4i",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://www.hainanwangdai.com",
         "url": "https://www.hainanwangdai.com/api/v1/user/agreement/privacy/status?utmSource=yrd_m_web&phone=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://app.zhuanzhuan.com",
         "url": "https://app.zhuanzhuan.com/zz/transfer/getCaptcha?type=1&mobile=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://www.xuebangsoft.net",
         "url": "http://www.xuebangsoft.net/eduboss/CommonAction/sendVarifyCodeToPhone.do?phoneNumber=[phone]&regTimeCode=1589627585503",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://passport.eqxiu.com",
         "url": "https://passport.eqxiu.com/eqs/sms/token?phone=[phone]&type=quickLogin&checkPhone=1&channel=21&version=4.4.1",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://sso-c.souche.com",
         "url": "https://sso-c.souche.com/loginApi/getCaptchaUrlByPhone.json?app=tangeche&phone=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://m.paperword.com",
         "url": "https://m.paperword.com/mobile/code/v2/login/code?promote=0&mobile=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://mall-cashback.tinman.cn",
         "url": "https://mall-cashback.tinman.cn/noRight/campaign/send-verification-code?phone=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://z12.cnzz.com",
         "url": "https://z12.cnzz.com/stat.htm?id=1280063424&r=&lg=zh-cn&ntime=1632490428&cnzz_eid=1185173797-1632490428-&showp=424x906&p=",
-        "method": "GET"
-        
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://aitob.xiaoyezi.com",
         "url": "https://aitob.xiaoyezi.com/student_wx/student/send_sms_code?mobile=[phone]",
-        "method": "GET"
-        
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://online.jobtool.cn",
         "url": "https://online.jobtool.cn/api/security/sms?phone=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://www.sk-vip.cn",
-        "url": "http://www.sk-vip.cn/index.php?m=&c=page&a=yunhu&phone=15506725478",
-        "method": "GET"
-        
+        "url": "http://www.sk-vip.cn/index.php?m=&c=page&a=yunhu&phone=[phone]",
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "小叶子陪练",
@@ -309,23 +344,29 @@
         },
         "data": {
             "mobile": "[phone]"
-        }
+        },
+        "form": ""
     },
     {
         "desc": "www.pmzaojia.com",
         "url": "http://www.pmzaojia.com/pmzaojia/api/user/sendRegisterPhoneCode?phoneNum=[phone]",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "www.sensorsdata.cn",
         "url": "https://www.sensorsdata.cn/api/passport/sms/quest_new/[phone]%20?_t=lkz3elvc",
-        "method": "GET"
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://api.qingmang.mobi",
         "url": "http://api.qingmang.mobi/v1/account.sendVerification?platform=console&token=&phone=%2B86[phone]8&code=65080339",
-        "method": "GET"
-        
+        "method": "GET",
+        "header": {},
+        "data": {}
     },
     {
         "desc": "https://mtbird.staringos.com",
@@ -351,8 +392,8 @@
         },
         "data": {
             "PhoneNumber": "[phone]"
-        }
-        
+        },
+        "form": ""
     },
     {
         "desc": "https://iam.pt.ouchn.cn",
@@ -364,8 +405,8 @@
         },
         "data": {
             "userPhone": "[phone]"
-        }
-        
+        },
+        "form": ""
     },
     {
         "desc": "零克",
@@ -381,8 +422,8 @@
             "phone_area_code": "0086",
             "type": "register",
             "phone": "[phone]"
-        }
-        
+        },
+        "form": ""
     },
     {
         "desc": "爱发电",
@@ -425,5 +466,14 @@
             "scene": "login",
             "phone": "[phone]"
         }
+    },
+    {
+        "desc": "能链",
+        "url": "https://openplatformwsgateway.nlktj.com/openplatformws/user/send/sendCheckMsgV7/[phone]",
+        "method": "GET",
+        "header": {
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+        },
+        "data": {}
     }
 ]

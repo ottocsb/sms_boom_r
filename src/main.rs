@@ -1,6 +1,9 @@
-use std::collections::HashMap;
+mod write_to_file;
+mod struct_mod;
+
+use struct_mod::{ResponseResult, RqStruct};
 use std::{env, fs};
-use serde::Deserialize;
+
 use std::time::Duration;
 use indicatif::{ProgressBar, ProgressStyle};
 use tokio::time::sleep;
@@ -23,15 +26,8 @@ async fn main() {
     }
 }
 
-#[derive(Debug)]
-#[allow(dead_code)]
-struct ResponseResult {
-    desc: String,
-    success: bool,
-    msg: String,
-}
 
-async fn env_rq(phone: String,  num: u64, time_out: u64, request_timeout: u64) {
+async fn env_rq(phone: String, num: u64, time_out: u64, request_timeout: u64) {
     println!("手机号是: {}", phone);
     println!("循环次数是: {}", num);
     println!("循环间隔是: {}", time_out);
@@ -47,8 +43,13 @@ async fn env_rq(phone: String,  num: u64, time_out: u64, request_timeout: u64) {
         println!("-------------------");
 
         for api_config in &api_configs {
+
+            if api_config.obsolete.unwrap_or(false) {
+                continue;
+            }
+
             let result = sed_rq(api_config.clone(), time_out, phone.as_str()).await;
-            println!("{:#?}", result);
+            println!("请求结果：{:#?}", result);
             println!();
         }
 
@@ -72,7 +73,10 @@ async fn env_rq(phone: String,  num: u64, time_out: u64, request_timeout: u64) {
         // 完成进度条
         pb.finish_with_message("done");
     }
+
+    write_to_file::write_to_json(api_configs).unwrap();
 }
+
 
 async fn sed_rq(rq_body: RqStruct, time_out: u64, phone: &str) -> ResponseResult {
     let client = reqwest::Client::new();
@@ -91,20 +95,19 @@ async fn sed_rq(rq_body: RqStruct, time_out: u64, phone: &str) -> ResponseResult
         }
     }
 
+    // 添加 data
     if let Some(mut data) = rq_body.data {
         for (_, value) in data.iter_mut() {
             *value = value.replace("[phone]", phone);
         }
-        request_builder = request_builder.json(&data);
-    }
-
-    if let Some(mut form) = rq_body.form {
-        for (_, value) in form.iter_mut() {
-            *value = value.replace("[phone]", phone);
+        if rq_body.form.is_some() {
+            let form_data = serde_urlencoded::to_string(data).unwrap();
+            request_builder = request_builder.body(form_data);
+        } else {
+            let json_data = serde_json::json!(data);
+            request_builder = request_builder.json(&json_data);
         }
-        request_builder = request_builder.form(&form);
     }
-
 
     match request_builder.send().await {
         Ok(response) => {
@@ -145,13 +148,3 @@ fn get_env() -> Result<(String, u64, u64, u64), Box<dyn Error>> {
     Ok((phone.clone(), num, time_out, request_timeout))
 }
 
-
-#[derive(Debug, Deserialize, Clone)]
-struct RqStruct {
-    desc: Option<String>,
-    url: Option<String>,
-    method: Option<String>,
-    data: Option<HashMap<String,String>>,
-    header: Option<HashMap<String,String>>,
-    form: Option<HashMap<String,String>>,
-}
