@@ -1,0 +1,9 @@
+dist
+.nitro
+.output
+env.d.ts
+node_modules
+components.d.ts
+type-router.d.ts
+auto-imports.d.ts
+vite.config.ts.timestamp*
