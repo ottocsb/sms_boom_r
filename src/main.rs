@@ -1,20 +1,21 @@
-mod write_to_file;
 mod struct_mod;
 mod route_fun;
+mod send_rq;
 
-use route_fun::get_json;
-use struct_mod::{ResponseResult, RqStruct};
+use send_rq::sed_rq;
+
+use route_fun::{get_json, test_api};
+use struct_mod::{ RqStruct};
 use tower_http::cors::{Any, CorsLayer};
 
 use std::{env, fs};
 use std::time::Duration;
 use axum::{
     routing::{get, post},
-    response::{IntoResponse, Html},
-    extract::Path,
-    Router, Json,
+    response::Html,
+    http::Method,
+    Router,
 };
-use axum::http::Method;
 
 use indicatif::{ProgressBar, ProgressStyle};
 use tokio::time::sleep;
@@ -26,11 +27,10 @@ async fn main() {
     // 获取命令行参数
     let args: Vec<String> = env::args().collect();
 
+    let mode = if args[1] == "--server" { "server mode" } else { "release mode" };
+    println!("{}", mode);
     // 检查是否为调试模式
     if args[1] == "--server" {
-        print!("server mode");
-        println!();
-
         let cors = CorsLayer::new()
             // allow `GET` and `POST` when accessing the resource
             .allow_methods([Method::GET, Method::POST])
@@ -40,19 +40,19 @@ async fn main() {
 
         let app = Router::new()
             .route("/", get(|| async { Html("<h1>Hello,Word!</h1>") }))
-            .route("/getJson", get(get_json))
+            .route("/getJsonData", get(get_json))
+            .route("/testApi", post(test_api))
             .layer(cors);
+
 
         // 运行hyper  http服务 localhost:3000
         let listener = tokio::net::TcpListener::bind("0.0.0.0:2024").await.unwrap();
         axum::serve(listener, app).await.unwrap();
     } else {
-        print!("release mode");
-        println!();
 
         // 检查是否提供了手机号
         if args.len() < 2 {
-            print!("命令行模式至少提供手机号！");
+            println!("命令行模式至少提供手机号！");
             std::process::exit(1);
         }
 
@@ -82,7 +82,6 @@ async fn env_rq(phone: String, num: u64, time_out: u64, request_timeout: u64) {
     println!("循环次数: {}", num);
     println!("循环间隔: {}", time_out);
     println!("请求超时时长: {}", request_timeout);
-    println!();
 
     let json_data = fs::read_to_string("api.json").expect("Unable to read file");
 
@@ -99,12 +98,10 @@ async fn env_rq(phone: String, num: u64, time_out: u64, request_timeout: u64) {
             }
 
             let result = sed_rq(api_config.clone(), time_out, phone.as_str()).await;
-            println!("请求结果：{:#?}", result);
-            println!();
+            println!("请求结果：\n{:#?}", result);
         }
 
         println!("-------------------");
-        println!();
 
         if num == 1 {
             break;
@@ -124,47 +121,4 @@ async fn env_rq(phone: String, num: u64, time_out: u64, request_timeout: u64) {
         pb.finish_with_message("done");
     }
 
-    write_to_file::write_to_json(api_configs).unwrap();
 }
-
-async fn sed_rq(rq_body: RqStruct, time_out: u64, phone: &str) -> ResponseResult {
-    let client = reqwest::Client::new();
-    let url = rq_body.url.unwrap().replace("[phone]", phone);
-    let mut request_builder = client.request(
-        reqwest::Method::from_bytes(rq_body.method.unwrap().as_bytes()).unwrap(),
-        url,
-    );
-
-    request_builder = request_builder.timeout(Duration::from_secs(time_out));
-
-    // 添加 headers
-    if let Some(headers) = rq_body.header {
-        for (key, value) in headers {
-            request_builder = request_builder.header(key, value.replace("[phone]", phone));
-        }
-    }
-
-    // 添加 data
-    if let Some(mut data) = rq_body.data {
-        for (_, value) in data.iter_mut() {
-            *value = value.replace("[phone]", phone);
-        }
-        if rq_body.form.is_some() {
-            let form_data = serde_urlencoded::to_string(data).unwrap();
-            request_builder = request_builder.body(form_data);
-        } else {
-            let json_data = serde_json::json!(data);
-            request_builder = request_builder.json(&json_data);
-        }
-    }
-
-    match request_builder.send().await {
-        Ok(response) => {
-            ResponseResult { desc: rq_body.desc.unwrap(), success: true, msg: response.text().await.unwrap() }
-        }
-        Err(err) => {
-            ResponseResult { desc: rq_body.desc.unwrap(), success: false, msg: err.to_string() }
-        }
-    }
-}
-
