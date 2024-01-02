@@ -8,12 +8,12 @@ authors = ["ottocsb "]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = "0.7.2"
+axum = "0.7.3"
 tower-http = { version = "0.5.0", features = ["cors"] }
 reqwest = { version = "0.11.23", features = ["json"] }
 tokio = { version = "1.35.1", features = ["full"] }
 serde = { version = "1.0.193", features = ["derive"] }
-serde_json = "1.0.108"
+serde_json = "1.0.109"
 serde_urlencoded = "0.7.0"
 time = "0.3.31"
 num = "0.4.1"

@@ -12,11 +12,11 @@ pub struct ResponseResult<T: Serialize> {
 impl<T> ResponseResult<T>
     where T: Serialize
 {
-    pub fn new(desc: String, result: bool,data: Option<T>) -> Self {
+    pub fn new(desc: String, result: bool, data: Option<T>) -> Self {
         Self {
             desc,
             result,
-            data
+            data,
         }
     }
 }

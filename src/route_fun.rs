@@ -1,5 +1,5 @@
 use std::fs;
-use axum::{Json,response::IntoResponse};
+use axum::{Json, response::IntoResponse};
 use serde::{Deserialize, Serialize};
 use super::struct_mod::{Response, RqStruct};
 use super::sed_rq;
@@ -10,7 +10,7 @@ pub async fn get_json() -> impl IntoResponse {
     Json(Response::ok(json_value))
 }
 
-#[derive( Deserialize, Serialize )]
+#[derive(Deserialize, Serialize)]
 pub struct TestApiParam {
     phone: String,
     data: RqStruct,
@@ -21,5 +21,5 @@ pub async fn test_api(Json(payload): Json<TestApiParam>) -> impl IntoResponse {
     // 补全参数
     let res = sed_rq(payload.data, 10, payload.phone.as_str()).await;
     println!("返回结果：\n{:#?}", res);
-    Json(Response::ok(res))
+    Json(res)
 }

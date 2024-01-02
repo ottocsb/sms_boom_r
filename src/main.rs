@@ -5,7 +5,7 @@ mod send_rq;
 use send_rq::sed_rq;
 
 use route_fun::{get_json, test_api};
-use struct_mod::{ RqStruct};
+use struct_mod::{RqStruct};
 use tower_http::cors::{Any, CorsLayer};
 
 use std::{env, fs};
@@ -120,5 +120,4 @@ async fn env_rq(phone: String, num: u64, time_out: u64, request_timeout: u64) {
         // 完成进度条
         pb.finish_with_message("done");
     }
-
 }
